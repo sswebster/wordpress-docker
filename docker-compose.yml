@@ -25,7 +25,5 @@ services:
       WORDPRESS_DB_USER: wordpress
       WORDPRESS_DB_PASSWORD: wordpress
       WORDPRESS_DB_NAME: wordpress
-    volumes:
-      - ${HOME}/DevSites/wordpress-docker/wp-content:/var/www/html/wp-content
 volumes:
   db_data: {}
