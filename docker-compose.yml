@@ -16,7 +16,11 @@ services:
   wordpress:
     depends_on:
       - db
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        PATH_TO_SSH: ${PATH_TO_SSH_KEY}
     ports:
       - "8000:80"
     restart: always
