@@ -13,9 +13,22 @@ services:
       MYSQL_USER: wordpress
       MYSQL_PASSWORD: wordpress
 
+  tests-db:
+    image: mysql:latest
+    command: '--default-authentication-plugin=mysql_native_password'
+    volumes:
+      - test_data:/var/lib/mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: wordpress_test
+      MYSQL_DATABASE: wordpress
+      MYSQL_USER: wordpress
+      MYSQL_PASSWORD: wordpress
+
   wordpress:
     depends_on:
       - db
+      - tests-db
     build:
       context: .
       dockerfile: Dockerfile
@@ -29,5 +42,7 @@ services:
       WORDPRESS_DB_USER: wordpress
       WORDPRESS_DB_PASSWORD: wordpress
       WORDPRESS_DB_NAME: wordpress
+      PHPUNIT_DB_HOST: "tests-db"
 volumes:
   db_data: {}
+  test_data: {}
