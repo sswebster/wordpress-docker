@@ -42,7 +42,10 @@ services:
       WORDPRESS_DB_USER: wordpress
       WORDPRESS_DB_PASSWORD: wordpress
       WORDPRESS_DB_NAME: wordpress
-      PHPUNIT_DB_HOST: "tests-db"
+      PHPUNIT_DB_HOST: tests-db:3306
+      WORDPRESS_CONFIG_EXTRA: |
+        define( 'SCRIPT_DEBUG', true );
+        define( 'WP_DEBUG', true );
 volumes:
   db_data: {}
   test_data: {}
