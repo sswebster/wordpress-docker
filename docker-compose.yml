@@ -2,7 +2,7 @@ version: '3.3'
 
 services:
   db:
-    image: mysql:latest
+    image: ${MYSQL_VERSION}
     command: '--default-authentication-plugin=mysql_native_password'
     volumes:
       - db_data:/var/lib/mysql
@@ -14,7 +14,7 @@ services:
       MYSQL_PASSWORD: wordpress
 
   tests-db:
-    image: mysql:latest
+    image: ${MYSQL_VERSION}
     command: '--default-authentication-plugin=mysql_native_password'
     volumes:
       - test_data:/var/lib/mysql
@@ -34,9 +34,10 @@ services:
       dockerfile: Dockerfile
       args:
         PERSONAL_TOKEN: ${PERSONAL_TOKEN}
+        WORDPRESS_VERSION: ${WP_VERSION}
     ports:
       - "8000:80"
-    restart: always
+    restart: on-failure
     environment:
       WORDPRESS_DB_HOST: db:3306
       WORDPRESS_DB_USER: wordpress
@@ -46,6 +47,11 @@ services:
       WORDPRESS_CONFIG_EXTRA: |
         define( 'SCRIPT_DEBUG', true );
         define( 'WP_DEBUG', true );
+      XDEBUG_CONFIG:
+        remote_host=host.docker.internal
+        remote_enable=on
+    volumes:
+      - ${HOME}/DevSites/wordpress-docker:/var/www/html
 volumes:
   db_data: {}
   test_data: {}
