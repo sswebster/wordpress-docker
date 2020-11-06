@@ -1,8 +1,14 @@
 <?php
+/**
+ * Plugin Name: Mailhog
+ * Description: Configure Mailhog
+ */
 
 defined( 'ABSPATH' ) || exit;
 
-
+/**
+ * WP MailHog
+ */
 class WP_MailHog {
 
     function __construct() {
