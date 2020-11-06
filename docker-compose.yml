@@ -1,6 +1,13 @@
 version: '3.3'
 
 services:
+
+  mailhog:
+    image: mailhog/mailhog
+    ports:
+      - 1025:1025 # smtp server
+      - 8025:8025 # web ui
+
   db:
     image: ${MYSQL_VERSION}
     command: '--default-authentication-plugin=mysql_native_password'
@@ -52,6 +59,16 @@ services:
         remote_enable=on
     volumes:
       - ${HOME}/DevSites/wordpress-docker:/var/www/html
+  #wpcli:
+  #  build:
+  #    context: ./wpcli-dockerfile
+  #    dockerfile: Dockerfile
+  #  volumes_from:
+  #    - wordpress
+  #  links:
+  #    - db:mysql
+  #  entrypoint: wp
+  # command: "plugin activate --all"
 volumes:
   db_data: {}
   test_data: {}
