@@ -58,7 +58,7 @@ services:
         remote_host=host.docker.internal
         remote_enable=on
     volumes:
-      - ${HOME}/DevSites/wordpress-docker:/var/www/html
+      - ${HOME}/${FOLDER_PATH}:/var/www/html
   #wpcli:
   #  build:
   #    context: ./wpcli-dockerfile
