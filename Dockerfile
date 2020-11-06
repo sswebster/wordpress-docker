@@ -15,7 +15,9 @@ RUN apt-get update && \
 COPY git-clone-list.sh .
 COPY repos.list .
 RUN chmod +x git-clone-list.sh
-RUN mkdir plugins && cd plugins && bash ../../git-clone-list.sh ../../repos.list $PERSONAL_TOKEN
+RUN mkdir plugins && cd plugins && \
+	bash ../../git-clone-list.sh ../../repos.list $PERSONAL_TOKEN
+COPY mailhog-plugin plugins/mailhog-plugin
 
 # Build Wordpress image
 
