@@ -15,7 +15,7 @@ then
 	fi
 
 	#3. init the testing instance
-	sudo -u www-data -- wp scaffold plugin-tests $WP_PLUGIN_FOLDER --force
+	sudo -u www-data -- wp scaffold plugin-tests /usr/src/wordpress/wp-content/plugins/gravityforms --force
 	cd /usr/src/wordpress/wp-content/plugins/gravityforms && bash tests/bin/install.sh wordpress_tests wordpress wordpress db
 fi
 

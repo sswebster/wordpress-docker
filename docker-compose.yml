@@ -1,4 +1,4 @@
-version: '3.3'
+version: '3.6'
 
 services:
 
@@ -43,7 +43,7 @@ services:
         PERSONAL_TOKEN: ${PERSONAL_TOKEN}
         WORDPRESS_VERSION: ${WP_VERSION}
     ports:
-      - "8000:80"
+      - 80:80
     restart: on-failure
     environment:
       WORDPRESS_DB_HOST: db:3306
@@ -58,17 +58,29 @@ services:
         remote_host=host.docker.internal
         remote_enable=on
     volumes:
-      - ${HOME}/${FOLDER_PATH}:/var/www/html
-  #wpcli:
-  #  build:
-  #    context: ./wpcli-dockerfile
-  #    dockerfile: Dockerfile
-  #  volumes_from:
-  #    - wordpress
-  #  links:
-  #    - db:mysql
-  #  entrypoint: wp
-  # command: "plugin activate --all"
+      - ${HOME}/${FOLDER_PATH}/wordpress:/var/www/html
+  wpcli:
+    build:
+      context: ./wpcli
+      dockerfile: Dockerfile
+    volumes_from:
+      - wordpress
+    links:
+      - db
+    working_dir: /var/www/html
+  healthcheck:
+    build:
+      context: ./wpcli
+      dockerfile: Dockerfile
+    container_name: healthcheck
+    command: sh -c "/wait"
+    environment:
+      - WAIT_HOSTS=db:3306, wordpress:80
+      - WAIT_BEFORE_HOSTS=${WAIT_BEFORE_HOSTS:-30}
+      - WAIT_AFTER_HOSTS=${WAIT_AFTER_HOSTS:-15}
+      - WAIT_HOSTS_TIMEOUT=${WAIT_HOSTS_TIMEOUT:-300}
+      - WAIT_SLEEP_INTERVAL=${WAIT_SLEEP_INTERVAL:-30}
+      - WAIT_HOST_CONNECT_TIMEOUT=${WAIT_HOST_CONNECT_TIMEOUT:-30}
 volumes:
   db_data: {}
   test_data: {}

@@ -7,3 +7,4 @@ do
   echo "cloning $element"
   git clone https://$2@github.com/gravityforms/$element
 done
+
